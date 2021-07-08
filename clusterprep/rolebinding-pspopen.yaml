@@ -1,0 +1,45 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: psp:open
+rules:
+- apiGroups:
+  - extensions
+  resources:
+  - podsecuritypolicies
+  resourceNames:
+  - vmware-system-privileged # the psp we are giving access to
+  verbs:
+  - use
+
+---
+
+    # This applies psp/open to all authenticated users
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: psp:open
+subjects:
+- kind: Group
+  name: system:authenticated # All authenticated users
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: psp:open # A references to the role above
+  apiGroup: rbac.authorization.k8s.io
+
+---
+  
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: psp:privileged_sa
+subjects:
+- kind: Group
+  apiGroup: rbac.authorization.k8s.io
+  name: system:serviceaccounts
+roleRef:
+  kind: ClusterRole
+  name: psp:vmware-system-privileged
+  apiGroup: rbac.authorization.k8s.io
+  

@@ -1,0 +1,11 @@
+
+"c:\Program Files\VMware\VMware OVF Tool\ovftool.exe" --quiet --overwrite --powerOffTarget --powerOn --acceptAllEulas --noSSLVerify --X:injectOvfEnv --allowExtraConfig --X:enableHiddenProperties --X:waitForIp --sourceType=OVA -nw="VLAN 1085" -ds=SC9HY-CORE-VM02 -n="WCP VCSA" -dm=thin --prop:guestinfo.cis.deployment.node.type=embedded --prop:guestinfo.cis.appliance.net.addr.family=ipv4 --prop:guestinfo.cis.appliance.net.mode=static --prop:guestinfo.cis.appliance.net.pnid=sydscvvwcpvc01.syddsc.local --prop:guestinfo.cis.appliance.net.addr=192.168.185.10 --prop:guestinfo.cis.appliance.net.prefix=24 --prop:guestinfo.cis.appliance.net.gateway=192.168.185.1 --prop:guestinfo.cis.appliance.net.dns.servers=192.168.200.17 --prop:guestinfo.cis.appliance.root.passwd=VMware123! --prop:guestinfo.cis.appliance.ssh.enabled=True --prop:guestinfo.cis.deployment.autoconfig=True --prop:guestinfo.cis.appliance.ntp.servers=192.168.200.17 --prop:guestinfo.cis.vmdir.password=VMware123! --prop:guestinfo.cis.vmdir.site-name=default-site --prop:guestinfo.cis.vmdir.domain-name=vsphere.local --prop:guestinfo.cis.appliance.root.shell=/bin/bash --prop:guestinfo.cis.feature.states=WCP=enabled,AUTH_TES_TO_JWT=enabled,CNS=enabled,FCD_GlobalCatalog=enabled,FCD_Metadata=enabled,VsanCxxVmodlServer_VC=enabled,spbmVsanHostAffinity=enabled,WCP_PodVM=enabled,APIGW_NOTIFICATIONS=enabled,CL_Registry=enabled,CertificateAuthority=enabled,EAM_Cluster_VMs=enabled,ExpandableShares=enabled --prop:guestinfo.cis.ceip_enabled=False C:\Users\david_lloyd\Desktop\Pacific\vcsa.ova "vi://pksservice@192.168.200.25/SYDSC Core/host/Core"
+
+
+
+
+kubeadm join 192.168.187.151:6443 --token y7yaev.9dvwxx6ny4ef8vlq \
+    --discovery-token-ca-cert-hash sha256:c621fa3e6bd7bec55457a7e16bb0f678bacc0f81b8e9e15234f18d2b95027f49
+    
+
+helm install wavefront stable/wavefront --set wavefront.url=https://longboard.wavefront.com --set wavefront.token=7fb151a3-778f-416b-842f-894cedd583ff --set clusterName=k8s1 --namespace wavefront

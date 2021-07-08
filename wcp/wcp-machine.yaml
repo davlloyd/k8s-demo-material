@@ -1,0 +1,62 @@
+apiVersion: cluster.k8s.io/v1alpha1
+kind: Machine
+metadata:
+  annotations:
+    wcpprovider.k8s.io/provider: wcp
+  creationTimestamp: "2019-10-24T23:57:21Z"
+  finalizers:
+  - foregroundDeletion
+  - machine.cluster.k8s.io
+  generateName: cluster-prod-1-worker-57546dc579-
+  generation: 3
+  labels:
+    cluster.k8s.io/cluster-name: cluster-prod-1
+    gcm.vmware.com/kubernetesDistributionVersion: v1.15.0_vmware.1.20-guest.1.14
+    machine-template-hash: "1310287135"
+    set: node
+  name: cluster-prod-1-worker-57546dc579-7wtbz
+  namespace: production
+  ownerReferences:
+  - apiVersion: cluster.k8s.io/v1alpha1
+    blockOwnerDeletion: true
+    controller: true
+    kind: MachineSet
+    name: cluster-prod-1-worker-57546dc579
+    uid: 7e4bc33e-c7e5-400d-be48-0feed5d5e1e6
+  resourceVersion: "3130284"
+  selfLink: /apis/cluster.k8s.io/v1alpha1/namespaces/production/machines/cluster-prod-1-worker-57546dc579-7wtbz
+  uid: 2c74d132-b6d3-4958-9c56-e92bf93cddfd
+spec:
+  metadata:
+    creationTimestamp: null
+  providerID: vsphere://423a2b50-e64c-8efc-c017-c4a6856ceb12
+  providerSpec:
+    value:
+      apiVersion: wcpprovider.k8s.io/v1alpha1
+      className: guaranteed-small
+      imageName: photon-ova
+      kind: WCPMachineProviderSpec
+      kubeadmConfiguration:
+        init:
+          localAPIEndpoint: {}
+          nodeRegistration:
+            taints: null
+        join:
+          discovery: {}
+          nodeRegistration:
+            kubeletExtraArgs:
+              node-labels: gcm.vmware.com/kubernetesDistributionVersion=v1.15.0_vmware.1.20-guest.1.14
+            taints: null
+      metadata:
+        creationTimestamp: null
+      storageClass: wcp-gold-storage-policy
+  versions:
+    kubelet: v1.15.0+vmware.1.20-guest.1.14
+status:
+  nodeRef:
+    name: cluster-prod-1-worker-57546dc579-7wtbz
+    uid: b83e8134-52eb-4432-bad3-7a07bc8d8f01
+  providerStatus:
+    metadata:
+      creationTimestamp: null
+    vmIp: 10.244.1.84

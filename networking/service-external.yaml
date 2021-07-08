@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+  namespace: core
+spec:
+  type: ExternalName
+  externalName: devops1.home.local
+

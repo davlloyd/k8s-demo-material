@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: petclinic
+  labels:
+    app: petclinic
+    tier: web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: petclinic
+      tier: web
+  minReadySeconds: 20
+  template:
+    metadata:
+      labels:
+        app: petclinic
+        tier: web
+    spec:
+      containers:
+      - name: petclinic
+        image: davlloyd/petclinic:46
+        imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+            httpHeaders:
+            - name: Custom-Header
+              value: Check
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        env:
+        - name: SPRING_PROFILES_ACTIVE # can be set to H2 (default) or mysql
+          value: H2
+        - name: DB_USER
+          valueFrom:
+            configMapKeyRef:
+              name: petclinic-config
+              key: db_user
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: petclinic-secret
+              key: password
+        - name: DB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: petclinic-secret
+              key: password
+        - name: DB_SCHEMA
+          valueFrom:
+            configMapKeyRef:
+              name: petclinic-config
+              key: db_name
+        - name: DB_HOST
+          value: petclinic-db
+        ports:
+        - containerPort: 8080
+          name: http
+      #imagePullSecrets:
+      #  - name: harborcred

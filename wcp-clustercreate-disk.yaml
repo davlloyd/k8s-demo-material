@@ -1,0 +1,36 @@
+apiVersion: run.tanzu.vmware.com/v1alpha1
+kind: TanzuKubernetesCluster
+metadata:
+  name: dbs1
+  namespace: dbs
+spec:
+  topology:
+    controlPlane:
+      count: 1
+      class: best-effort-small
+      storageClass: wcp-storage-general
+      volumes:
+      - capacity:
+          storage: 20G
+        mountPath: /var/lib/etcd
+        name:    etcd
+    workers:
+      count: 3
+      class: best-effort-small
+      storageClass: wcp-storage-general
+      volumes:
+      - capacity:
+          storage: 25G
+        mountPath: /var/lib/containerd
+        name: containerd
+  distribution:
+    version: v1.19.7
+  settings:
+    network:
+      cni:
+        name: antrea
+      services:
+        cidrBlocks: ["172.10.0.0/16"]
+      pods:
+        cidrBlocks: ["172.20.0.0/16"]
+

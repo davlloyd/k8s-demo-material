@@ -1,0 +1,12 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: data1
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: wcp-storage-general
+  resources:
+    requests:
+      storage: 2Gi
+      

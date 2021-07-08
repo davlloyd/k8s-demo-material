@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  labels:
+    k8s-app: heapster
+    name: heapster
+    version: v6
+  name: heapster
+  namespace: kube-system
+spec:
+  replicas: 1
+  selector:
+    k8s-app: heapster
+    version: v6
+  template:
+    metadata:
+      labels:
+        k8s-app: heapster
+        version: v6
+    spec:
+      serviceAccount: "heapster"
+      containers:
+      - name: heapster
+        image: wavefronthq/heapster-amd64:latest
+        imagePullPolicy: Always
+        command:
+        - /heapster
+        - --source=kubernetes.summary_api:''
+        - --sink=wavefront:192.168.192.248:2878?clusterName=staging&includeLabels=true
+        volumeMounts:
+        - name: ssl-certs
+          mountPath: /etc/ssl/certs
+          readOnly: true
+        ports:
+        - containerPort: 8082
+          protocol: TCP
+      volumes:
+      - name: ssl-certs
+        hostPath:
+          path: /etc/ssl/certs

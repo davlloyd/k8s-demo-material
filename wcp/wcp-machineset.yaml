@@ -1,0 +1,83 @@
+apiVersion: v1
+items:
+- apiVersion: cluster.k8s.io/v1alpha1
+  kind: MachineSet
+  metadata:
+    annotations:
+      machinedeployment.clusters.k8s.io/desired-replicas: "2"
+      machinedeployment.clusters.k8s.io/max-replicas: "3"
+      machinedeployment.clusters.k8s.io/revision: "1"
+    creationTimestamp: "2019-10-24T23:57:21Z"
+    finalizers:
+    - foregroundDeletion
+    generation: 1
+    labels:
+      cluster.k8s.io/cluster-name: cluster-prod-1
+      gcm.vmware.com/kubernetesDistributionVersion: v1.15.0_vmware.1.20-guest.1.14
+      machine-template-hash: "1310287135"
+      set: node
+    name: cluster-prod-1-worker-57546dc579
+    namespace: production
+    ownerReferences:
+    - apiVersion: cluster.k8s.io/v1alpha1
+      blockOwnerDeletion: true
+      controller: true
+      kind: MachineDeployment
+      name: cluster-prod-1-worker
+      uid: f4c37960-d304-49df-9227-4ca9fd692666
+    resourceVersion: "3132734"
+    selfLink: /apis/cluster.k8s.io/v1alpha1/namespaces/production/machinesets/cluster-prod-1-worker-57546dc579
+    uid: 7e4bc33e-c7e5-400d-be48-0feed5d5e1e6
+  spec:
+    replicas: 2
+    selector:
+      matchLabels:
+        cluster.k8s.io/cluster-name: cluster-prod-1
+        gcm.vmware.com/kubernetesDistributionVersion: v1.15.0_vmware.1.20-guest.1.14
+        machine-template-hash: "1310287135"
+        set: node
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          cluster.k8s.io/cluster-name: cluster-prod-1
+          gcm.vmware.com/kubernetesDistributionVersion: v1.15.0_vmware.1.20-guest.1.14
+          machine-template-hash: "1310287135"
+          set: node
+      spec:
+        metadata:
+          creationTimestamp: null
+        providerSpec:
+          value:
+            apiVersion: wcpprovider.k8s.io/v1alpha1
+            className: guaranteed-small
+            imageName: photon-ova
+            kind: WCPMachineProviderSpec
+            kubeadmConfiguration:
+              init:
+                localAPIEndpoint:
+                  advertiseAddress: ""
+                  bindPort: 0
+                nodeRegistration: {}
+              join:
+                caCertPath: ""
+                discovery:
+                  tlsBootstrapToken: ""
+                nodeRegistration:
+                  kubeletExtraArgs:
+                    node-labels: gcm.vmware.com/kubernetesDistributionVersion=v1.15.0_vmware.1.20-guest.1.14
+            metadata:
+              creationTimestamp: null
+            storageClass: wcp-gold-storage-policy
+        versions:
+          kubelet: v1.15.0+vmware.1.20-guest.1.14
+  status:
+    availableReplicas: 2
+    fullyLabeledReplicas: 2
+    observedGeneration: 1
+    readyReplicas: 2
+    replicas: 2
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""

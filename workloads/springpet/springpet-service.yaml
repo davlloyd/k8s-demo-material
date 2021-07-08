@@ -1,0 +1,20 @@
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: petclinic
+  labels:
+    app: petclinic
+    tier: web
+spec:
+  externalTrafficPolicy: Cluster
+  selector:
+    app: petclinic
+    tier: web
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 8080
+  sessionAffinity: None #ClientIP
+  type: LoadBalancer

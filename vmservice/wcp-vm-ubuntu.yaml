@@ -1,0 +1,46 @@
+apiVersion: vmoperator.vmware.com/v1alpha1
+kind: VirtualMachine
+metadata:
+  name: ubuntu-1
+  labels:
+    app: web-u-1
+spec:
+  className: best-effort-small
+  imageName: ubuntu-20.04-vmservice-v1alpha1.20210210
+  powerState: poweredOn
+  storageClass: wcp-storage-general
+  networkInterfaces:
+  - networkName: ""
+    networkType: nsx-t
+  vmMetadata:
+    configMapName: web-u-1
+    transport: OvfEnv
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: web-u-1
+data:
+  user-data: >-
+    I2Nsb3VkLWNvbmZpZwoKcGFzc3dvcmQ6IFZNV0FSRQpzc2hfcHdhdXRoOiB0cnVlCgp1c2VyczoKICAtIG5hbWU6IHZtd2FyZQogICAgc3VkbzogQUxMPShBTEwpIE5PUEFTU1dEOkFMTAogICAgbG9ja19wYXNzd2Q6IGZhbHNlCiAgICAjIFBhc3N3b3JkIHNldCB0byBBZG1pbiEyMwogICAgcGFzc3dkOiAnJDEkc2FsdCRTT0MzM2ZWYkEvWnhlSXdENXl3MXUxJwogICAgc2hlbGw6IC9iaW4vYmFzaAoKd3JpdGVfZmlsZXM6CiAgLSBjb250ZW50OiB8CiAgICAgIFZNU1ZDIFNheXMgSGVsbG8gV29ybGQKICAgIHBhdGg6IC9oZWxsb3dvcmxkCg==
+---
+apiVersion: vmoperator.vmware.com/v1alpha1
+kind: VirtualMachineService
+metadata:
+  name: web-u-1
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: webu1.apps.home.local
+    external-dns.alpha.kubernetes.io/ttl: "60"
+spec:
+  type: LoadBalancer
+  ports:
+    - name: ssh
+      protocol: TCP
+      port: 22
+      targetPort: 22
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 80
+  selector:
+    app: web-u-1

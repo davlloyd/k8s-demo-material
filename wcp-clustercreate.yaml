@@ -1,0 +1,25 @@
+apiVersion: run.tanzu.vmware.com/v1alpha1
+kind: TanzuKubernetesCluster
+metadata:
+  name: caas3
+  namespace: caas
+spec:
+  topology:
+    controlPlane:
+      count: 3
+      class: best-effort-small
+      storageClass: wcp-storage-general
+    workers:
+      count: 4
+      class: best-effort-small
+      storageClass: wcp-storage-general
+  distribution:
+    fullVersion: 1.20.2+vmware.1-tkg.2.3e10706
+  settings:
+    network:
+      cni:
+        name: antrea
+      services:
+        cidrBlocks: ["172.10.0.0/16"]
+      pods:
+        cidrBlocks: ["172.20.0.0/16"]

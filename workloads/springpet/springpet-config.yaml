@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: petclinic-config
+  labels:
+    app: petclinic
+    name: petclinic-config
+data:
+  db_name: petclinic
+  db_user: root
+
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: petclinic-secret
+  labels:
+    app: petclinic
+type: Opaque
+data:
+  username: cm9vdA==
+  password: cGFzc3dvcmQ=
+  
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: petclinic-dbinit
+  labels:
+    app: petclinic
+    name: petclinic-dbinit
+data:
+  init.sql: |
+    CREATE DATABASE IF NOT EXISTS petclinic;
+
+    ALTER DATABASE petclinic
+      DEFAULT CHARACTER SET utf8
+      DEFAULT COLLATE utf8_general_ci;

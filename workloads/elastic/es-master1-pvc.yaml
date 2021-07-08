@@ -1,0 +1,12 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: es-master1
+  namespace: elk
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: wcp-storage-general
+  resources:
+    requests:
+      storage: 50Gi

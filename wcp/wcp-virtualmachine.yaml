@@ -1,0 +1,14 @@
+apiVersion: vmoperator.vmware.com/v1alpha1
+kind: VirtualMachine
+metadata:
+  generation: 1
+  name: vm-db-dev-1
+  namespace: development
+spec:
+  className: guaranteed-xsmall
+  imageName: ubuntu-1904-template
+  networkInterfaces:
+  - networkName: clusterdev1-vnet
+    networkType: nsx-t
+  powerState: poweredOn
+  storageClass: wcp-storage-general

@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: $(build.DefinitionName)
+  labels:
+    app: petclinic
+    tier: web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: petclinic
+      tier: web
+  minReadySeconds: 20
+  template:
+    metadata:
+      labels:
+        app: petclinic
+        tier: web
+    spec:
+      containers:
+      - name: petclinic
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "768Mi"
+            cpu: "750m"
+        image: '$(container-repository-test)/$(build.DefinitionName):$(Build.BuildId)'
+        imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+            httpHeaders:
+            - name: Custom-Header
+              value: Check
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        env:
+        - name: SPRING_PROFILES_ACTIVE 
+          value: H2
+        ports:
+        - containerPort: 8080
+          name: http

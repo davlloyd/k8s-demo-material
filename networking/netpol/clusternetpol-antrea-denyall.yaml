@@ -1,0 +1,13 @@
+apiVersion: security.antrea.tanzu.vmware.com/v1alpha1
+kind: ClusterNetworkPolicy
+metadata:
+  name: cluster-ingress-deny-all
+spec:
+    priority: 30
+    tier: SecurityOps
+    appliedTo:
+      - namespaceSelector: {}
+    ingress:
+      - action: Drop
+        from:
+          - namespaceSelector: {}

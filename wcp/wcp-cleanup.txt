@@ -1,0 +1,33 @@
+NSX Uninstall
+
+1)ID cluster
+dcli +username pksservice@syddsc.local +password password com vmware vcenter cluster list
+
+2) Remove Edge
+curl -k http://localhost:8920/disable-edge -d '{"cluster": "domain-c8"}'
+
+3) Remove Cluster 
+curl -k http://localhost:8920/disable-cluster -d '{"cluster": "domain-c8"}'
+
+4) Remove NSX Manager
+dcli +show-unreleased com vmware vcenter nsx deployment install uninstall 
+
+5) Restart WCP Service
+vmon-cli -r wcp
+
+
+54210-AL34L-D8J88-0EX8K-AT430
+
+** remove harbor entries
+dcli +i +show-unreleased
+dcli>com vmware vcenter content registries harbor list
+dcli>com vmware vcenter content registries harbor delete --registry <harborid>
+
+Remove NSX Segments left behind
+ssh onto each host
+run following:
+rm -f /etc/vmware/hostd/opaqueNetwork.xml.gz
+/etc/init.d/hostd restart
+
+### look at all crds in the namespace
+kubectl api-resources --verbs=list --namespaced -o name | xargs -n 1 kubectl get --show-kind --ignore-not-found -n <namespacename>
