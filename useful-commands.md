@@ -18,3 +18,9 @@ from VC:    /usr/lib/vmware-wcp/decryptK8Pwd.py
 
 # read cloud -init settings for node
 kubectl get cm -n core core1-control-plane-6w2zr-jwsx7-cloud-init -o json | jq '.data."guestinfo.userdata"' -r | base64 -d
+
+
+# delete failed pods (all namespaces)
+kubectl get po -A --field-selector status.phase!=Succeeded,status.phase!=Running,status.phase!=Pending -o json | kubectl delete -f -
+or
+kubectl get po -A --field-selector status.phase==Failed -o json | kubectl delete -f -
