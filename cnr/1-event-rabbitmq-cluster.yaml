@@ -1,0 +1,18 @@
+apiVersion: rabbitmq.com/v1beta1
+kind: RabbitmqCluster
+metadata:
+  name: local-rabbit
+spec:
+  replicas: 1
+  override:
+    statefulSet:
+      spec:
+        template:
+          spec:
+            securityContext: {}
+            containers: []
+            initContainers:
+            - name: setup-container
+              securityContext:
+                runAsUser: 999
+                runAsGroup: 999

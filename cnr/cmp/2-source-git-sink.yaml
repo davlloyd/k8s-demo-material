@@ -1,0 +1,22 @@
+apiVersion: sources.knative.dev/v1alpha1
+kind: GitLabSource
+metadata:
+  name: gitlocal-git
+spec:
+  eventTypes:
+    - push_events
+  projectUrl: http://192.168.0.29/kn/gitops
+  accessToken:
+    secretKeyRef:
+      name: gitlabsecret
+      key: accessToken
+  secretToken:
+    secretKeyRef:
+      name: gitlabsecret
+      key: secretToken
+  sslverify: false
+  sink:
+    ref:
+      apiVersion: serving.knative.dev/v1
+      kind: Service
+      name: gitlab-event-display

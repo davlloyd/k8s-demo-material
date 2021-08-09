@@ -1,20 +1,20 @@
 apiVersion: run.tanzu.vmware.com/v1alpha1
 kind: TanzuKubernetesCluster
 metadata:
-  name: caas3
-  namespace: caas
+  name: faas1
+  namespace: faas
 spec:
   topology:
     controlPlane:
-      count: 3
-      class: best-effort-small
+      count: 1
+      class: best-effort-medium-cpu
       storageClass: wcp-storage-general
     workers:
-      count: 4
-      class: best-effort-small
+      count: 2
+      class: best-effort-medium-cpu
       storageClass: wcp-storage-general
   distribution:
-    fullVersion: 1.20.2+vmware.1-tkg.2.3e10706
+    fullVersion: 1.20.7+vmware.1-tkg.1.7fb9067
   settings:
     network:
       cni:
