@@ -1,0 +1,21 @@
+apiVersion: templates.gatekeeper.sh/v1beta1
+kind: ConstraintTemplate
+metadata:
+  name: blockpoorlytaggedimages
+  annotations:
+    description: Blocks images with no tag or the "latest" tag.
+spec:
+  crd:
+    spec:
+      names:
+        kind: blockpoorlytaggedimages
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package k8sblocklatesttag
+        violation[{"msg": msg, "details": {}}]{
+          input.review.object.kind == "Pod"
+          imagename := input.review.object.spec.containers[_].image
+          endswith(imagename,"latest")
+          msg := sprintf("Pod %v could not be created because it uses images that are tagged latest or images with no tags",[input.request.object.metadata.name])
+        }

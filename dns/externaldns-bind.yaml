@@ -72,8 +72,8 @@ spec:
         image: k8s.gcr.io/external-dns/external-dns:v0.7.6
         args:
         - --registry=txt
-        - --txt-prefix=external-dns-caas2-
-        - --txt-owner-id=k8s-caas2
+        - --txt-prefix=external-sv-
+        - --txt-owner-id=k8s-sv
         - --provider=rfc2136
         - --rfc2136-host=192.168.0.10
         - --rfc2136-port=53

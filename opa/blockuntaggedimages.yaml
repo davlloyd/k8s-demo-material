@@ -1,0 +1,29 @@
+apiVersion: templates.gatekeeper.sh/v1beta1
+kind: ConstraintTemplate
+metadata:
+  name: blockuntaggedimages
+spec:
+  crd:
+    spec:
+      names:
+        kind: blockuntaggedimages
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package blockuntaggedimages
+        requested_images = {img | img := input.request.object.spec.containers[_].image}
+        violation[{"msg": msg}] {
+          input.request.kind.kind == "Pod"
+          ensure
+          msg := sprintf("Pod %v could not be created because it uses images that are tagged latest or images with no tags",[input.request.object.metadata.name])
+        }
+        ensure {
+          has_string(":latest",requested_images)
+        }
+        ensure {
+          not has_string(":",requested_images)
+
+        }
+        has_string(str,arr){
+          contains(arr[_],str)
+        }

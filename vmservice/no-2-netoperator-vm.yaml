@@ -1,0 +1,21 @@
+apiVersion: vmoperator.vmware.com/v1alpha1
+kind: VirtualMachine
+metadata:
+  name: ubuntu-1
+  #namespace: caas
+spec:
+  className: best-effort-small
+  imageName: ubuntu-20.04-vmservice-v1alpha1.20210210
+  powerState: poweredOn
+  storageClass: wcp-storage-general
+  vmMetadata:
+    configMapName: web-u-1
+    transport: OvfEnv
+  networkInterfaces:
+  - networkName: ubuntu-vnet-1
+    networkType: nsx-t
+    providerRef:
+      apiGroup: netoperator.vmware.com
+      kind: NetworkInterface
+      name: my-netif-1
+      apiVersion: v1alpha1

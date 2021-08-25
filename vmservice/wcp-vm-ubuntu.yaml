@@ -1,7 +1,7 @@
 apiVersion: vmoperator.vmware.com/v1alpha1
 kind: VirtualMachine
 metadata:
-  name: ubuntu-1
+  name: web-u-1
   labels:
     app: web-u-1
 spec:

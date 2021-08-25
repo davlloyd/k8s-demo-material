@@ -1,0 +1,22 @@
+apiVersion: vmoperator.vmware.com/v1alpha1
+kind: VirtualMachine
+metadata:
+  name: web-c-1
+  labels:
+    app: web-c-1
+    web: demo
+spec:
+  className: best-effort-small
+  imageName: centos-stream-8-vmservice-v1alpha1.20210222.8
+  powerState: poweredOn
+  storageClass: wcp-storage-general
+  networkInterfaces:
+  - networkName: ""
+    networkType: nsx-t
+  vmMetadata:
+    configMapName: web-c-1
+    transport: OvfEnv
+  volumes:
+    - name: c1-disk-1
+      persistentVolumeClaim:
+        claimName: c1-disk-1

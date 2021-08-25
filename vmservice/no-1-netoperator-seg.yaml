@@ -1,0 +1,15 @@
+apiVersion: netoperator.vmware.com/v1alpha1
+kind: NetworkInterface
+metadata:
+  name: my-netif-1
+  namespace: caas
+  annotations:
+    networkinterface.netoperator.vmware.com/client-managed: ""
+spec:
+   networkName: ubuntu-vnet-1
+   type: vmxnet3
+status:
+   conditions:
+   - type: Ready
+     status: "True"
+   networkID: 740887fc-9a30-4749-b242-7656072a5600
