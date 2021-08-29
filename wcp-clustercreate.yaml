@@ -2,7 +2,6 @@ apiVersion: run.tanzu.vmware.com/v1alpha1
 kind: TanzuKubernetesCluster
 metadata:
   name: faas1
-  namespace: faas
 spec:
   topology:
     controlPlane:
