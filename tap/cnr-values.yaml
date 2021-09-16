@@ -1,0 +1,18 @@
+---
+registry:
+ server: "registry.pivotal.io"
+ username: ""
+ password: ""
+
+provider:
+pdb:
+ enable: "true"
+
+ingress:
+ reuse_crds:
+ external:
+   namespace:
+ internal:
+   namespace:    
+
+local_dns:
