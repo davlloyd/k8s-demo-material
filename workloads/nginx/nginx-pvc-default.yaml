@@ -1,12 +1,13 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: data1
+  name: nginx-data
+  labels:
+    app: nginx
 spec:
   accessModes:
-    - ReadWriteOnce
-  storageClassName: cl01-bronze-policy
+  - ReadWriteOnce
   resources:
     requests:
-      storage: 2Gi
+      storage: 1Gi
       

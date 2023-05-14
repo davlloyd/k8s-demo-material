@@ -1,0 +1,18 @@
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: nginx-service
+  labels:
+    app: nginx
+spec:
+  externalTrafficPolicy: Cluster
+  selector:
+    app: nginx
+  ports:
+  - name: http
+    port: 8080
+    protocol: TCP
+    targetPort: 80
+  sessionAffinity: None
+  type: LoadBalancer

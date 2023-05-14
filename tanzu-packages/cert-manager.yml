@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: cert-manager-sa
+  namespace: tkg-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: admin
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+  - kind: ServiceAccount
+    name: cert-manager-sa
+    namespace: tkg-system
+---
+apiVersion: packaging.carvel.dev/v1alpha1
+kind: PackageInstall
+metadata:
+  name: cert-manager
+  namespace: tkg-system
+spec:
+  serviceAccountName: cert-manager-sa
+  packageRef:
+    refName: cert-manager.tanzu.vmware.com
+    versionSelection:
+      constraints: version 1.7.2+vmware.1-tkg.1
+  values:
+  - secretRef:
+      name: cert-manager-data-values
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cert-manager-data-values
+  namespace: tkg-system
+stringData:
+  values.yml: |
+    ---
+    namespace: cert-manager
+  

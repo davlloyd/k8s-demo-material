@@ -1,0 +1,25 @@
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+kind: VSphereMachineTemplate
+metadata:
+  labels:
+    cluster.x-k8s.io/cluster-name: workload1
+  name: workload1-control-plane-v2
+  namespace: default
+spec:
+  template:
+    spec:
+      cloneMode: fullClone
+      datacenter: /Lab
+      datastore: /Lab/datastore/vsanDatastore
+      diskGiB: 40
+      folder: /Lab/vm/tkg
+      memoryMiB: 16384
+      network:
+        devices:
+        - dhcp4: true
+          networkName: /Lab/network/pg-lab-mgmt-144
+      numCPUs: 4
+      resourcePool: /Lab/host/Cluster1/Resources/tkg
+      server: 10.90.144.10
+      storagePolicyName: ""
+      template: /Lab/vm/templates/photon-3-kube-v1.24.10+vmware.1

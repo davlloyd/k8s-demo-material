@@ -2,64 +2,55 @@ apiVersion: apps/v1 # apps/v1beta2 in Kube 1.8, extensions/v1beta1 in Kube < 1.8
 kind: DaemonSet
 metadata:
   name: vrops-cadvisor
-  namespace: kube-system
+  namespace: kube-system 
   labels:
     app: vrops-cadvisor
+  annotations:
+      seccomp.security.alpha.kubernetes.io/pod: 'docker/default'
 spec:
   selector:
     matchLabels:
-      name: vrops-cadvisor
+      app: vrops-cadvisor
   template:
     metadata:
       labels:
-        name: vrops-cadvisor
+        app: vrops-cadvisor
         version: v0.33.0
     spec:
       tolerations:
       - key: node-role.kubernetes.io/master
         effect: NoSchedule
-      hostNetwork: true
       containers:
       - name: vrops-cadvisor
         image: google/cadvisor:v0.33.0
-        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: 250Mi
+            cpu: 250m
+          limits:
+            cpu: 400m
         volumeMounts:
         - name: rootfs
           mountPath: /rootfs
           readOnly: true
         - name: var-run
           mountPath: /var/run
-          readOnly: false
+          readOnly: true
         - name: sys
           mountPath: /sys
           readOnly: true
         - name: docker
-          mountPath: /var/lib/docker #Mouting Docker volume
-          readOnly: true
-        - name: docker-sock
-          mountPath: /var/run/docker.sock
-          readOnly: true
-        - name: containerd-sock
-          mountPath: /var/run/containerd.sock
+          mountPath: /var/lib/docker  #Mouting Docker volume  
           readOnly: true
         - name: disk
           mountPath: /dev/disk
           readOnly: true
         ports:
-        - name: http
-          containerPort: 31194 #Port exposed
-          hostPort: 31194  #Host's port - Port to expose your cAdvisor DaemonSet on each node
-          protocol: TCP
-        securityContext:
-          capabilities:
-            drop:
-            - ALL
-            add:
-            - NET_BIND_SERVICE
-        args:
-          - --port=31194
-          - --profiling
-          - --housekeeping_interval=1s
+          - name: http
+            containerPort: 8080 #Port exposed 
+            hostPort : 31194 #Host's port - Port to expose your cAdvisor DaemonSet on each node
+            protocol: TCP
+      automountServiceAccountToken: false
       terminationGracePeriodSeconds: 30
       volumes:
       - name: rootfs
@@ -73,13 +64,8 @@ spec:
           path: /sys
       - name: docker
         hostPath:
-          path: /var/vcap/store/docker/docker #Docker path in Host System
-      - name: docker-sock  
-        hostPath:
-          path: /var/vcap/sys/run/docker/docker.sock
-      - name: containerd-sock
-        hostPath:
-          path: /var/run/docker/containerd/docker-containerd.sock
+          path: /var/lib/docker #Docker path in Host System
       - name: disk
         hostPath:
           path: /dev/disk
+

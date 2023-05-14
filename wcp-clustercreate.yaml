@@ -1,24 +1,31 @@
-apiVersion: run.tanzu.vmware.com/v1alpha1
+apiVersion: run.tanzu.vmware.com/v1alpha3
 kind: TanzuKubernetesCluster
 metadata:
-  name: tap1
+  name: alpha-shared-1
+  #annotation:
+  #  run.tanzu.vmware.com/resolve-os-image: os-name=photon 
 spec:
-  topology:
-    controlPlane:
-      count: 1
-      class: best-effort-medium-cpu
-      storageClass: wcp-storage-general
-    workers:
-      count: 2
-      class: best-effort-medium-cpu
-      storageClass: wcp-storage-general
-  distribution:
-    fullVersion: 1.20.7+vmware.1-tkg.1.7fb9067
   settings:
     network:
-      cni:
-        name: antrea
       services:
-        cidrBlocks: ["172.10.0.0/16"]
+        cidrBlocks:
+        - 172.10.0.0/16
       pods:
-        cidrBlocks: ["172.20.0.0/16"]
+        cidrBlocks:
+        - 172.20.0.0/16
+      serviceDomain: cluster.local
+    storage:
+      defaultClass: tkg-shared-general
+  topology:
+    controlPlane:
+      replicas: 1
+      vmClass: best-effort-medium
+      storageClass: tkg-shared-general
+      tkr:
+        reference:
+          name: v1.23.8---vmware.2-tkg.2-zshippable
+    nodePools:
+    - name: default-nodepool
+      replicas: 2
+      vmClass: best-effort-medium
+      storageClass: tkg-local-performance

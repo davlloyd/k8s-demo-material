@@ -8,7 +8,7 @@ metadata:
 
 ---
 kind: ClusterRole
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: fluentd
 rules:
@@ -24,7 +24,7 @@ rules:
 
 ---
 kind: ClusterRoleBinding
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: fluentd
 roleRef:
@@ -66,7 +66,7 @@ spec:
        effect: NoSchedule
      containers:
      - name: fluentd-li
-       image: projects.registry.vmware.com/vrealize_loginsight/fluentd:1.0
+       image: projects.registry.vmware.com/vrealize_loginsight/fluentd:1.1
        command: ["fluentd", "-c", "/etc/fluentd/fluent.conf", "-p", "/fluentd/plugins"]
        env:
        - name: FLUENTD_ARGS
@@ -99,9 +99,8 @@ spec:
          path: /var/lib/docker/containers
      - name: fluentdconfig
        configMap:
-         name: li-fluentd-config
+         name: loginsight-fluentd-config
      - name: li-fluent-volume
        emptyDir: {}
      - name: var-logs
        emptyDir: {}
-       

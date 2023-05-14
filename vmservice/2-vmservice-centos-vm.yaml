@@ -7,12 +7,12 @@ metadata:
     web: demo
 spec:
   className: best-effort-small
-  imageName: centos-stream-8-vmservice-v1alpha1.20210222.8
+  imageName: centos-stream-8-vmservice-v1alpha1-1638306496810
   powerState: poweredOn
-  storageClass: wcp-storage-general
+  storageClass: shared-general
   networkInterfaces:
-  - networkName: ""
-    networkType: nsx-t
+  - networkName: dportgroup-vm-41
+    networkType: vsphere-distributed
   vmMetadata:
     configMapName: web-c-1
     transport: OvfEnv

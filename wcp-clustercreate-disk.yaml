@@ -1,36 +1,45 @@
-apiVersion: run.tanzu.vmware.com/v1alpha1
+apiVersion: run.tanzu.vmware.com/v1alpha3
 kind: TanzuKubernetesCluster
 metadata:
-  name: dbs1
-  namespace: dbs
+  name: beta-tap-1
+  #annotation:
+  #  run.tanzu.vmware.com/resolve-os-image: os-name=photon 
 spec:
-  topology:
-    controlPlane:
-      count: 1
-      class: best-effort-small
-      storageClass: wcp-storage-general
-      volumes:
-      - capacity:
-          storage: 20G
-        mountPath: /var/lib/etcd
-        name:    etcd
-    workers:
-      count: 3
-      class: best-effort-small
-      storageClass: wcp-storage-general
-      volumes:
-      - capacity:
-          storage: 25G
-        mountPath: /var/lib/containerd
-        name: containerd
-  distribution:
-    version: v1.19.7
   settings:
     network:
-      cni:
-        name: antrea
       services:
-        cidrBlocks: ["172.10.0.0/16"]
+        cidrBlocks:
+        - 172.10.0.0/16
       pods:
-        cidrBlocks: ["172.20.0.0/16"]
-
+        cidrBlocks:
+        - 172.20.0.0/16
+      serviceDomain: cluster.local
+    storage:
+      defaultClass: shared-general
+  topology:
+    controlPlane:
+      replicas: 1
+      vmClass: best-effort-medium
+      storageClass: shared-general
+      tkr:
+        reference:
+          name: v1.23.8---vmware.2-tkg.2-zshippable
+      volumes:
+      - name: etcd
+        mountPath: /var/lib/etcd
+        capacity:
+          storage: 4Gi
+    nodePools:
+    - name: default-nodepool
+      replicas: 0
+      vmClass: best-effort-medium-cpu
+      storageClass: shared-general
+      volumes:
+      - name: containerd
+        capacity:
+          storage: 40G
+        mountPath: /var/lib/containerd
+      - name: kubelet
+        capacity:
+          storage: 40Gi
+        mountPath: /var/lib/kubelet
