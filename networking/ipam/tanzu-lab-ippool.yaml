@@ -1,0 +1,22 @@
+apiVersion: ipam.cluster.x-k8s.io/v1alpha1
+kind: InClusterIPPool
+metadata:
+  name: lab-ippool
+  namespace: default
+spec:
+  subnet: 10.90.144.0/25
+  gateway: 10.90.144.125
+  start:  10.90.144.71
+  end: 10.90.144.99
+
+---
+apiVersion: ipam.cluster.x-k8s.io/v1alpha1
+kind: InClusterIPPool
+metadata:
+  name: edge1-ippool
+  namespace: default
+spec:
+  subnet: 10.90.145.0/25
+  gateway: 10.90.145.125
+  start:  10.90.145.71
+  end: 10.90.145.99

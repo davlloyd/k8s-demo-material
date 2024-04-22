@@ -1,3 +1,4 @@
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -14,11 +15,24 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: nginx:1.7.9
+        image: nginx
         ports:
         - containerPort: 80
-
+        volumeMounts:
+        - name: data 
+          mountPath: /usr/share/nginx/html/data
+        - name: indexpage
+          mountPath: /usr/share/nginx/html
+        securityContext:
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: nginx-data
+      - name: indexpage
+        configMap:
+          name: nginx-page
 --- 
-
 
 

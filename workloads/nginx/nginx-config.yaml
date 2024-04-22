@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-page
+data:
+  index.html: |
+    <html>
+      <head>
+        <title>Tanzu Demo</title>
+      </head>
+      <body>
+        <h1>Hello</h1>
+      </body>
+    </html>
+

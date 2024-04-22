@@ -9,9 +9,9 @@ spec:
   className: best-effort-xsmall
   imageName: centos-stream-8-vmservice-v1alpha1-1638306496810
   powerState: poweredOn
-  storageClass: shared-general
+  storageClass: lab-silver
   networkInterfaces:
-  - networkName: dportgroup-vm-41
+  - networkName: pg-lab-container-245
     networkType: vsphere-distributed
   vmMetadata:
     configMapName: web-c-2

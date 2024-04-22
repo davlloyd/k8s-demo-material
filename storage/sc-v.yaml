@@ -1,10 +1,10 @@
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
 metadata:
-  name: wcp-storage-db
+  name: tkg-storage-default
   namespace: kube-system
   annotations:
     storageclass.kubernetes.io/is-default-class: "true"
 provisioner: csi.vsphere.vmware.com
 parameters:
-  storagepolicyname: "wcp-storage-general"
+  storagepolicyname: "lab-silver"

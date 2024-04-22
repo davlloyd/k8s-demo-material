@@ -1,0 +1,9 @@
+apiVersion: v1
+data:
+  tkrVersions: '["v1.25.7+vmware.1-tiny.2-tkg.1"]'
+kind: ConfigMap
+metadata:
+  name: tkg-compatibility-versions-v1.25.7---vmware.1-tiny.2-tkg.1
+  namespace: tkg-system
+  labels:
+    run.tanzu.vmware.com/additional-compatible-tkrs: ""

@@ -5,7 +5,7 @@ metadata:
   labels:
     app: nginx
 spec:
-  storageClassName: kubernetes
+  #storageClassName: default
   accessModes:
   - ReadWriteOnce
   resources:

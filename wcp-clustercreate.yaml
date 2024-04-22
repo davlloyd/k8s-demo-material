@@ -1,31 +1,29 @@
 apiVersion: run.tanzu.vmware.com/v1alpha3
 kind: TanzuKubernetesCluster
 metadata:
-  name: alpha-shared-1
-  #annotation:
-  #  run.tanzu.vmware.com/resolve-os-image: os-name=photon 
+  name: syd-tmc-1
 spec:
   settings:
     network:
       services:
         cidrBlocks:
-        - 172.10.0.0/16
+        - 172.30.0.0/16
       pods:
         cidrBlocks:
-        - 172.20.0.0/16
+        - 172.31.0.0/16
       serviceDomain: cluster.local
     storage:
-      defaultClass: tkg-shared-general
+      defaultClass: k8s-general-storage
   topology:
     controlPlane:
       replicas: 1
-      vmClass: best-effort-medium
-      storageClass: tkg-shared-general
+      vmClass: best-effort-large
+      storageClass: k8s-general-storage
       tkr:
         reference:
-          name: v1.23.8---vmware.2-tkg.2-zshippable
+          name: v1.24.11---vmware.1-fips.1-tkg.1
     nodePools:
     - name: default-nodepool
-      replicas: 2
-      vmClass: best-effort-medium
-      storageClass: tkg-local-performance
+      replicas: 3
+      vmClass: best-effort-large
+      storageClass: k8s-general-storage

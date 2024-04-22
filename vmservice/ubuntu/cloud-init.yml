@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: web-cloudinit-secret
+  namespace: lychee
+  labels:
+    vm-selector: web-1
+stringData:
+  user-data: |
+    #cloud-config
+    repo_update: true
+    repo_upgrade: all
+    apt_source:
+      - source: deb http://archive.ubuntu.com/ubuntu main universe multiverse restricted
+
+    packages:
+      - nginx
+      - open-vm-tools
+
+    users:
+      - name: user
+        sudo: ALL=(ALL) NOPASSWD:ALL
+        lock_passwd: false
+        # Password set to password (yeah yeah I know)
+        passwd: '$6$xOMH.ZGq5r$CUyVvMLcf2JQvXi3lpOM4aAhRbJ44d7RkhBx827WBhvj4t0R7kb6xEjH51uL1h8aq4D/GKqgqQsSW0YM43ytO/'
+        shell: /bin/bash
+
+    write_files:
+      - path: /var/www/html/index.nginx-debian.html
+        content: |
+          <!DOCTYPE html>
+          <html>
+          <head>
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <style>
+          .dot {
+            height: 200px;
+            width: 200px;
+            background-color: green;
+            border-radius: 50%;
+            display: inline-block;
+          }
+          </style>
+          </head>
+          <body>
+
+          <div style="text-align:center">
+            <h1>Hello Explore Singapore</h1>
+            <span class="dot"></span>
+          </div>
+
+          </body>
+          </html> 
+
+    runcmd:
+    - ufw allow 'Nginx HTTP'

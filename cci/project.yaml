@@ -1,0 +1,32 @@
+apiVersion: project.ccs.vmware.com/v1alpha1
+kind: Project
+metadata: 
+  name: <project name>
+  spec: 
+    description: <description of project> 
+    sharedResources: true
+
+---
+
+
+apiVersion: authorization.ccs.vmware.com/v1alpha1
+kind: ProjectRoleBinding
+metadata: 
+  name: ccs:user:vmware.com:<user alias> 
+  namespace: <project name>
+roleRef: 
+  apiGroup: authorization.ccs.vmware.com 
+  kind: ProjectRole 
+  name: admin
+subjects:
+- kind: User 
+  name: <username@company.com>
+
+---
+
+apiVersion: topology.ccs.vmware.com/v1alpha1
+kind: RegionBinding
+metadata: 
+  name: <region name> 
+  namespace: admin-api
+

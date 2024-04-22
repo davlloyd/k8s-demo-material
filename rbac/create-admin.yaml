@@ -17,15 +17,32 @@ type: kubernetes.io/service-account-token
 
 ---
 
+kubectl apply -n DEVELOPER_NAMESPACE -f - << EOF
+---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
+kind: RoleBinding
 metadata:
-  name: admin-user
+  name: app-editor
+  namespace: $DEVELOPER_NAMSPACE
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: cluster-admin
+  name: app-editor
 subjects:
-- kind: ServiceAccount
-  name: admin-user
-  namespace: kube-system
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: developer-1
+EOF
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: app-editor-cluster-access
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: app-editor-cluster-access
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: developer-1

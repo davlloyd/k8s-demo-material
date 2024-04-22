@@ -1,0 +1,30 @@
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: Cluster
+metadata:
+  name: boa-dev-1
+spec:
+  clusterNetwork:
+    services:
+      cidrBlocks:
+      - 172.10.0.0/16
+    pods:
+      cidrBlocks:
+      - 172.20.0.0/16
+    serviceDomain: cluster.local
+  topology:
+    class: tanzukubernetescluster
+    version: v1.23.8---vmware.2-tkg.2-zshippable
+    controlPlane:
+      replicas: 1
+    workers:
+      machineDeployments:
+        - class: node-pool
+          name: default-nodepool
+          replicas: 1
+    variables:
+      - name: vmClass
+        value: best-effort-small
+      - name: storageClass
+        value: k8s-general-storage
+      - name: defaultStorageClass
+        value: k8s-general-storage

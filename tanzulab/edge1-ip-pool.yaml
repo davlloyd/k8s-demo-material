@@ -1,0 +1,13 @@
+---
+apiVersion: ipam.cluster.x-k8s.io/v1alpha1
+kind: InClusterIPPool
+metadata:
+  name: ippool-1321
+  namespace: edge
+spec:
+  #subnet: 10.90.21.64/26
+  gateway: 10.90.21.125
+  start: 10.90.21.81
+  end: 10.90.21.100
+  prefix: 26
+

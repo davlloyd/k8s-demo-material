@@ -8,7 +8,7 @@ spec:
   className: best-effort-small
   imageName: ubuntu-20.04-vmservice-v1alpha1.20210210
   powerState: poweredOn
-  storageClass: wcp-storage-general
+  storageClass: lab-bronze
   networkInterfaces:
   - networkName: ""
     networkType: vsphere-distributed

@@ -1,0 +1,30 @@
+    - name: controlPlane
+      value:
+        machine:
+          customVMXKeys: {}
+          diskGiB: 40
+          memoryMiB: 16384
+          numCPUs: 4
+        nodeLabels: []
+        network:
+          nameservers: [10.90.144.5,10.90.144.6]
+    - name: worker
+      value:
+        count: 1
+        machine:
+          customVMXKeys: {}
+          diskGiB: 100
+          memoryMiB: 32768
+          numCPUs: 8
+        network:
+          nameservers: [10.90.144.5,10.90.144.6]
+    - name: VSPHERE_WINDOWS_TEMPLATE
+      value: ""
+    - name: vipNetworkInterface
+      value: eth0
+    - name: network
+      value:
+        addressesFromPools: 
+        - apiGroup: ipam.cluster.x-k8s.io
+          kind: InClusterIPPool
+          name: lab-ippool
