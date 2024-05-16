@@ -5,8 +5,7 @@ metadata:
   labels:
     app: nginx
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: blah.test3.home.tanzu.rock.
-    external-dns.alpha.kubernetes.io/ttl: '3600'
+    external-dns.alpha.kubernetes.io/hostname: '*.test2.home.tanzu.rocks,test2.home.tanzu.rocks'
 spec:
   externalTrafficPolicy: Cluster
   selector:
